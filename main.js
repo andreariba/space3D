@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-import Stats from 'three/examples/jsm/libs/stats.module'
+// import Stats from 'three/examples/jsm/libs/stats.module'
 
 let camera, scene, renderer, pointer, starGroup;
 
@@ -51,8 +51,8 @@ function onPointer( event ) {
 }
 window.addEventListener( 'click', onPointer );
 
-const stats = new Stats()
-document.body.appendChild(stats.dom)
+// const stats = new Stats()
+// document.body.appendChild(stats.dom)
 
 renderer = new THREE.WebGLRenderer(); // { antialias: true } 
 renderer.setSize( canvasWidth(), canvasHeight() );
@@ -148,7 +148,7 @@ function render() {
     renderer.render( scene, camera );
 }
 
-render()
+render();
 
 // function animate() {
 // 	requestAnimationFrame( animate );

@@ -46,13 +46,15 @@ function onPointer( event ) {
 	pointer.x = ( event.clientX / canvasWidth() ) * 2 - 1;
 	pointer.y = - ( event.clientY / canvasHeight() ) * 2 + 1;
 
+    render();
+
 }
 window.addEventListener( 'click', onPointer );
 
 const stats = new Stats()
 document.body.appendChild(stats.dom)
 
-renderer = new THREE.WebGLRenderer( { antialias: true } );
+renderer = new THREE.WebGLRenderer(); // { antialias: true } 
 renderer.setSize( canvasWidth(), canvasHeight() );
 document.body.appendChild( renderer.domElement );
 
@@ -146,9 +148,11 @@ function render() {
     renderer.render( scene, camera );
 }
 
-function animate() {
-	requestAnimationFrame( animate );
-    stats.update();
-    render();
-}
-animate()
+render()
+
+// function animate() {
+// 	requestAnimationFrame( animate );
+//     stats.update();
+//     render();
+// }
+// animate()

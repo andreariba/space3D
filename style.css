@@ -1,0 +1,25 @@
+body { 
+    margin: 0;
+    font-family: monospace;
+    font-size: larger;
+    background: black;
+}
+
+#star-info {
+    position: absolute;
+    right: 0px;
+    top: 50px;
+    border: 1px solid #aa0404;
+    width: 200px;
+    height: 120px;
+    color: rgb(255, 255, 255);
+    pointer-events: none;
+}
+
+
+.slidecontainer {
+    position: absolute;
+    width: 20px; /* Width of the outside container */
+    right: 150px;
+    color: white;
+}

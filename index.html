@@ -3,22 +3,7 @@
 	<head>
 		<meta charset="utf-8">
 		<title>SpaceMap</title>
-		<style>
-			body { margin: 0; }
-
-			#star-info {
-                font-family: monospace;
-                font-size: larger;
-                position: absolute;
-                right: 0px;
-                top: 50px;
-                border: 1px solid red;
-                width: 200px;
-                height: 120px;
-                color: white;
-                pointer-events: none;
-            }
-		</style>
+		<link rel="stylesheet" href="style.css">
 	<!-- <script async src="https://unpkg.com/es-module-shims@1.6.3/dist/es-module-shims.js"></script> -->
 	<!-- <script type="importmap">
 		{
@@ -30,6 +15,10 @@
 	</script> -->
 	</head>
 	<body>
+		<div class="slidecontainer">
+			<label for="distanceRange">Distance</label>
+			<input type="range" min="1" max="1000" value="10" class="slider" id="distanceRange">
+		</div>
 		<div id="star-info"></div>
 		<script type="module" src="./main.js"></script>
 	</body>

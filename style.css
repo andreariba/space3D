@@ -19,7 +19,7 @@ body {
 
 .slidecontainer {
     position: absolute;
-    width: 20px; /* Width of the outside container */
+    width: 150px; /* Width of the outside container */
     right: 150px;
     color: white;
 }

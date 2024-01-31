@@ -3,7 +3,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 // import Stats from 'three/examples/jsm/libs/stats.module'
 
 let camera, scene, renderer, pointer, starGroup;
-
+const LIGHTYEAR_PER_PARSEC = 3.26156;
 const canvasWidth = () => {
     return Math.floor(window.innerWidth*3/4);
 }
@@ -15,25 +15,42 @@ camera = new THREE.PerspectiveCamera( 45, canvasWidth() / canvasHeight(), 0.1, 1
 camera.position.set( 0, 0, 5 );
 
 const distanceRange = document.getElementById("distanceRange");
+const distanceRangeLabel = document.getElementById("distanceRangeLabel");
 
 const universeMesh = new THREE.Mesh(
-    new THREE.SphereGeometry( distanceRange.value, 16, 16 ), 
+    new THREE.SphereGeometry( Math.pow(10, distanceRange.value), 16, 16 ), 
     new THREE.MeshBasicMaterial({
         color: 0xffffff,
         wireframe: true
     })
 );
 
-distanceRange.addEventListener("change", async(event) => {
-    console.log("Universe radius: ",event.target.value);
-    universeMesh.geometry = new THREE.SphereGeometry( event.target.value, 16, 16 );
-    starGroup = await createStarGroup(event.target.value);
-    scene.add( starGroup );
-});
-
 scene = new THREE.Scene();
 scene.add(new THREE.AxesHelper(1));
 scene.add(universeMesh);
+
+distanceRange.addEventListener("change", async(event) => {
+
+    
+    const radius = Math.round(Math.pow(10,event.target.value));
+    console.log("Universe radius: ", radius);
+    distanceRangeLabel.innerText = 'Distance: '+radius+' ly';
+
+    universeMesh.geometry = new THREE.SphereGeometry( radius/LIGHTYEAR_PER_PARSEC, 16, 16 );
+
+    console.log("before:", scene);
+    let starObj = scene.getObjectByName( "stars" );
+    console.log(starObj);
+    starObj.children.slice().forEach(obj => starObj.remove(obj))
+    starObj.removeFromParent();
+    scene.remove(starObj);
+    console.log("after:", scene);
+    starGroup = await createStarGroup(radius/LIGHTYEAR_PER_PARSEC);
+    
+    scene.add(starGroup);
+    console.log(scene);
+});
+
 
 const raycaster = new THREE.Raycaster();
 pointer = new THREE.Vector2(canvasWidth(), canvasHeight());
@@ -81,15 +98,16 @@ const createStarMesh = (x,y,z, info) => {
 const createStarGroup = async(maxRadius) => {
     const response = await fetch("public/closest_stars.json");
     const json = await response.json();
-    const starGroup = new THREE.Group();
+    const newStarGroup = new THREE.Group();
     json.forEach(function (row) {
         if( row['dist']<maxRadius) {
             let newStar = createStarMesh(row['x'], row['y'], row['z'], row);
-            starGroup.add(newStar);
-            console.log(row['proper'], row['mag'], row["spect"]);
+            newStarGroup.add(newStar);
+            // console.log(row['proper'], row['mag'], row["spect"]);
         }
     });
-    return starGroup;
+    newStarGroup.name = 'stars';
+    return newStarGroup;
 }
 
 // const response = await fetch("public/closest_stars.json");
@@ -101,7 +119,7 @@ const createStarGroup = async(maxRadius) => {
 //     console.log(row['proper'], row['mag'], row["spect"]);
 // });
 
-starGroup = await createStarGroup(distanceRange.value);
+starGroup = await createStarGroup( Math.pow(10,distanceRange.value));
 scene.add( starGroup );
 console.log(scene);
 const starInfo = document.getElementById('star-info');
@@ -137,7 +155,7 @@ function render() {
         // starInfo.left = (pointer.x+1)*canvasWidth()/2+'px';
         // starInfo.top = (1-pointer.y)*canvasHeight()/2+'px';
         starInfo.innerText = 'Name: '+ star.object.info['proper']
-                           + '\nDistance: ' + Math.round(star.object.info['dist']*326.156)/100 + ' ly'
+                           + '\nDistance: ' + Math.round(star.object.info['dist']*LIGHTYEAR_PER_PARSEC*100)/100 + ' ly'
                            + '\nMagnitude: ' + star.object.info['mag']
                            + '\nSpectral type: ' + star.object.info['spect']
                            + '\nConstellation: ' + star.object.info['con'];
@@ -148,11 +166,12 @@ function render() {
     renderer.render( scene, camera );
 }
 
-render();
+THREE.DefaultLoadingManager.onLoad = function () { render(); };
+
+// render();
 
 // function animate() {
 // 	requestAnimationFrame( animate );
 //     stats.update();
-//     render();
 // }
 // animate()

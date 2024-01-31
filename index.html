@@ -8,7 +8,7 @@
 	<script type="importmap">
 		{
 			"imports": {
-				"three": "https://unpkg.com/three@0.160.1/build/three.js",
+				"three": "https://unpkg.com/three/build/three.js",
 				"three/": "https://unpkg.com/three/"
 			}
 		}
@@ -16,8 +16,8 @@
 	</head>
 	<body>
 		<div class="slidecontainer">
-			<label for="distanceRange">Distance</label>
-			<input type="range" min="1" max="1000" value="10" class="slider" id="distanceRange">
+			<label id="distanceRangeLabel" for="distanceRange">Distance: 10 ly</label>
+			<input type="range" min="1" max="3" step="0.1" value="1" class="slider" id="distanceRange">
 		</div>
 		<div id="star-info"></div>
 		<script type="module" src="./main.js"></script>

@@ -5,7 +5,8 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 let camera, scene, renderer, pointer, starGroup;
 const LIGHTYEAR_PER_PARSEC = 3.26156;
 const canvasWidth = () => {
-    return Math.floor(window.innerWidth*3/4);
+    // return Math.floor(window.innerWidth*3/4);
+    return window.innerWidth;
 }
 const canvasHeight = () => {
     return window.innerHeight;
@@ -18,7 +19,7 @@ const distanceRange = document.getElementById("distanceRange");
 const distanceRangeLabel = document.getElementById("distanceRangeLabel");
 
 const universeMesh = new THREE.Mesh(
-    new THREE.SphereGeometry( Math.pow(10, distanceRange.value), 16, 16 ), 
+    new THREE.SphereGeometry( Math.pow(10, distanceRange.value)/LIGHTYEAR_PER_PARSEC, 16, 16 ), 
     new THREE.MeshBasicMaterial({
         color: 0xffffff,
         wireframe: true
@@ -38,13 +39,17 @@ distanceRange.addEventListener("change", async(event) => {
 
     universeMesh.geometry = new THREE.SphereGeometry( radius/LIGHTYEAR_PER_PARSEC, 16, 16 );
 
-    console.log("before:", scene);
+    // console.log("before:", scene);
     let starObj = scene.getObjectByName( "stars" );
-    console.log(starObj);
-    starObj.children.slice().forEach(obj => starObj.remove(obj))
+    // console.log(starObj);
+    starObj.children.slice().forEach(obj => {
+        if (obj.geometry) obj.geometry.dispose();
+        if (obj.material) obj.material.dispose();
+        starObj.remove(obj);
+    });
     starObj.removeFromParent();
     scene.remove(starObj);
-    console.log("after:", scene);
+    // console.log("after:", scene);
     starGroup = await createStarGroup(radius/LIGHTYEAR_PER_PARSEC);
     
     scene.add(starGroup);
@@ -110,16 +115,7 @@ const createStarGroup = async(maxRadius) => {
     return newStarGroup;
 }
 
-// const response = await fetch("public/closest_stars.json");
-// const json = await response.json();
-// const starGroup = new THREE.Group();
-// json.forEach(function (row) {
-//     let newStar = createStarMesh(row['x'], row['y'], row['z'], row);
-//     starGroup.add(newStar);
-//     console.log(row['proper'], row['mag'], row["spect"]);
-// });
-
-starGroup = await createStarGroup( Math.pow(10,distanceRange.value));
+starGroup = await createStarGroup( Math.pow(10,distanceRange.value)/LIGHTYEAR_PER_PARSEC );
 scene.add( starGroup );
 console.log(scene);
 const starInfo = document.getElementById('star-info');

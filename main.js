@@ -115,8 +115,8 @@ const createStarGroup = async(maxRadius) => {
     return newStarGroup;
 }
 
-starGroup = await createStarGroup( Math.pow(10,distanceRange.value)/LIGHTYEAR_PER_PARSEC );
-scene.add( starGroup );
+createStarGroup( Math.pow(10,distanceRange.value)/LIGHTYEAR_PER_PARSEC ).then( (starGroup) => scene.add( starGroup ) );
+// scene.add( starGroup );
 console.log(scene);
 const starInfo = document.getElementById('star-info');
 
@@ -142,8 +142,10 @@ function render() {
     // update the picking ray with the camera and pointer position
 	raycaster.setFromCamera( pointer, camera );
 
+    let starObj = scene.getObjectByName( "stars" );
+
 	// calculate objects intersecting the picking ray
-	const intersects = raycaster.intersectObjects( starGroup.children );
+	const intersects = raycaster.intersectObjects( starObj.children );
     
     if( intersects.length>0) {
         let star = intersects[0];

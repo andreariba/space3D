@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>SpaceMap</title>
+	<script async src="https://unpkg.com/es-module-shims@1.6.3/dist/es-module-shims.js"></script>
+
+	<script type="importmap">
+		{
+			"imports": {
+				"three": "https://unpkg.com/three/build/three.js",
+				"three/": "https://unpkg.com/three/"
+			}
+		}
+	</script>
+		<script type="module" crossorigin src="/assets/index-HAoZ7ylh.js"></script>
+		<link rel="stylesheet" crossorigin href="/assets/index-Ts2jmFHy.css">
+	</head>
+	<body>
+		<div class="slidecontainer">
+			<label id="distanceRangeLabel" for="distanceRange">Distance: 10 ly</label>
+			<input type="range" min="1" max="3" step="0.1" value="1" class="slider" id="distanceRange">
+		</div>
+		<div id="star-info"></div>
+	</body>
+</html>

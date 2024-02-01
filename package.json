@@ -3,6 +3,14 @@
     "three": "^0.160.1"
   },
   "devDependencies": {
+    "gh-pages": "^6.1.1",
     "vite": "^5.0.12"
+  },
+  "homepage": "https://andreariba.github.io/space3D/",
+  "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist",
+    "dev": "vite",
+    "build": "vite build"
   }
 }

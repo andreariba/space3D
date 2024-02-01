@@ -1,6 +1,6 @@
 # Space 3D
 
-Visualization of stars in javascript with Three.js library.
+Visualization of stars in javascript with Three.js library, check it here https://andreariba.github.io/space3D/.
 
 Stars data from the HYG at The Astronomy Nexus https://www.astronexus.com/hyg.
 The spectral star color are adapted from Harre and Heller (2021).

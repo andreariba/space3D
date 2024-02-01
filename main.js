@@ -91,7 +91,7 @@ class DescriptiveMesh extends THREE.Mesh {
 const createStarMesh = (x,y,z, info) => {
 
     const starGeometry = new THREE.SphereGeometry( 0.1, 32, 16 ); 
-    const starTexture = new THREE.TextureLoader().load('/sun_texture.jpg');
+    const starTexture = new THREE.TextureLoader().load('sun_texture.jpg');
     const starMaterial = new THREE.MeshBasicMaterial({ map: starTexture });
     const starMesh = new DescriptiveMesh(starGeometry, starMaterial, info);
     starMesh.position.set(x, y, z);
@@ -101,7 +101,7 @@ const createStarMesh = (x,y,z, info) => {
 }
 
 const createStarGroup = async(maxRadius) => {
-    const response = await fetch("/closest_stars.json");
+    const response = await fetch("closest_stars.json");
     const json = await response.json();
     const newStarGroup = new THREE.Group();
     json.forEach(function (row) {
